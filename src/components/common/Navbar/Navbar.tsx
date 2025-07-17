@@ -8,18 +8,19 @@ const Navbar: React.FC<NavbarProps> = () => {
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="w-[80%] mx-auto top-4 px-6 py-4 backdrop-blur-md bg-zinc-900/40 border border-white/10 rounded-xl shadow-xl sticky z-50"
+      className="w-[80%] sticky mx-auto top-6 px-6 py-4 rounded-xl shadow-xl bg-zinc-700/10 backdrop-blur-xs border border-zinc-800 z-50"
     >
       <div className="flex items-center justify-between">
-        <img src={logoImg} alt="EasyAnime" title="EasyAnime" className="w-20" />
-        <div className="relative w-full max-w-sm">
+        <h1>
+          <img src={logoImg} alt="EasyAnime" title="EasyAnime" className="w-20" />
+        </h1>
+        <div className="w-full max-w-sm relative">
           <input
             type="text"
             placeholder="Cerca un anime..."
-            className="w-full pl-10 pr-4 py-2 rounded-lg border border-white/10 bg-zinc-800/50 text-zinc-100 placeholder:text-zinc-400 backdrop-blur focus:outline-none focus:ring-2 focus:ring-[#ebbe8f] transition-all duration-300"
+            className="w-full pl-10 pr-4 py-2 rounded-xl shadow-xl bg-zinc-600/10 border border-zinc-800 text-zinc-100 transition-all duration-300 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-primary"
           />
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={20} />
+          <Search className="absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400" size={20} />
         </div>
       </div>
     </motion.nav>

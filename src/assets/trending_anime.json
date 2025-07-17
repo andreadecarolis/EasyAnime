@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "DANDADAN",
+    "genre": ["Comico", "Horror", "Sentimentale"],
+    "img": "https://www.animeclick.it/immagini/anime/Dandadan/cover/Dandadan-cover.png"
+  },
+  {
+    "id": 2,
+    "title": "Chainsaw Man",
+    "genre": ["Azione", "Comico", "Horror"],
+    "img": "https://www.animeclick.it/immagini/anime/Chainsaw_Man/cover/Chainsaw_Man-cover.jpg"
+  },
+  {
+    "id": 3,
+    "title": "My Dress-Up Darling",
+    "genre": ["Comico", "Erotico", "Sentimentale"],
+    "img": "https://www.animeclick.it/immagini/anime/Sono_Kisekae_Ningyou_wa_Koi_o_Suru/cover/Sono_Kisekae_Ningyou_wa_Koi_o_Suru-cover.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Solo Leveling",
+    "genre": ["Azione", "Fantasy"],
+    "img": "https://www.animeclick.it/immagini/anime/Solo_Leveling/cover/Solo_Leveling-cover.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Call of the Night",
+    "genre": ["Avventura", "Fantasy", "Sentimentale"],
+    "img": "https://www.animeclick.it/immagini/anime/Yofukashi_no_Uta/cover/Yofukashi_no_Uta-cover.jpg"
+  },
+  {
+    "id": 6,
+    "title": "Jujutsu Kaisen",
+    "genre": ["Azione", "Fantasy", "Horror"],
+    "img": "https://www.animeclick.it/immagini/anime/Jujutsu_Kaisen/cover/Jujutsu_Kaisen-cover.jpg"
+  },
+  {
+    "id": 7,
+    "title": "Gachiakuta",
+    "genre": ["Azione", "Comico", "Horror"],
+    "img": "https://www.animeclick.it/immagini/anime/Gachiakuta/cover/Gachiakuta-cover.jpg"
+  }
+]

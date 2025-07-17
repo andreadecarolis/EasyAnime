@@ -1,0 +1,1 @@
+export { default as TrendingAnimeContainer } from './TrendingAnimeContainer';

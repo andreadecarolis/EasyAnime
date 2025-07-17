@@ -3,7 +3,7 @@ import { HomePage } from "./components/pages";
 
 function App() {
   return (
-    <div className="relative min-h-screen bg-zinc-800">
+    <div className="min-h-screen relative bg-zinc-950">
       <div className="pattern" />
       <Navbar />
       <div className="w-[95%] mx-auto mt-12">

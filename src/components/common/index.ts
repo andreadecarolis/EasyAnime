@@ -1,3 +1,4 @@
+import { AnimeCard } from "./AnimeCard";
 import { Navbar } from "./Navbar";
 
-export { Navbar };
+export { AnimeCard, Navbar };
