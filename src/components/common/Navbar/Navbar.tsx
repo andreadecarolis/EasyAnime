@@ -8,7 +8,7 @@ const Navbar: React.FC<NavbarProps> = () => {
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-[80%] sticky mx-auto top-6 px-6 py-4 rounded-xl shadow-xl bg-zinc-700/10 backdrop-blur-xs border border-zinc-800 z-50"
+      className="w-[80%] sticky mx-auto px-6 py-4 rounded-xl shadow-xl bg-zinc-700/10 backdrop-blur-xs border border-zinc-800 z-50"
     >
       <div className="flex items-center justify-between">
         <h1>

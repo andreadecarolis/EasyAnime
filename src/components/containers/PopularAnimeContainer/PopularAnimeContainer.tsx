@@ -3,13 +3,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import { AnimeCard, Loader } from "@/components/common";
 import { Anime } from "@/types/common.types";
-import { TrendingAnimeContainerProps } from "./types/TrendingAnimeContainer.types";
-import { Flame } from "lucide-react";
+import { PopularAnimeContainerProps } from "./types/PopularAnimeContainer.types";
+import { Star } from "lucide-react";
 import "swiper/css";
 import "swiper/css/autoplay";
-import "./TrendingAnimeContainer.scss";
+import "./PopularAnimeContainer.scss";
 
-const TrendingAnimeContainer: React.FC<TrendingAnimeContainerProps> = ({ animeList }) => {
+const PopularAnimeContainer: React.FC<PopularAnimeContainerProps> = ({ animeList }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -17,7 +17,7 @@ const TrendingAnimeContainer: React.FC<TrendingAnimeContainerProps> = ({ animeLi
       className="px-6 py-4 rounded-xl shadow-xl bg-zinc-700/10 backdrop-blur-xs border border-zinc-800"
     >
       <h2 className="text-primary text-2xl font-semibold">
-        Anime del momento <Flame className="inline-block" />
+        Anime scelti dagli utenti <Star className="inline-block" />
       </h2>
       {animeList.length ? (
         <Swiper
@@ -41,4 +41,4 @@ const TrendingAnimeContainer: React.FC<TrendingAnimeContainerProps> = ({ animeLi
   );
 };
 
-export default TrendingAnimeContainer;
+export default PopularAnimeContainer;

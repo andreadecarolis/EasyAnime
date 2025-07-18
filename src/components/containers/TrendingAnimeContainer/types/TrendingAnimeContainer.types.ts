@@ -1,3 +1,6 @@
-import { PropsWithChildren } from 'react';
+import { Anime } from "@/types/common.types";
+import { PropsWithChildren } from "react";
 
-export type TrendingAnimeContainerProps = PropsWithChildren & {};
+export type TrendingAnimeContainerProps = PropsWithChildren & {
+  animeList: Anime[];
+};
