@@ -1,13 +1,26 @@
+import { useDispatch } from "react-redux";
 import { AnimeCardGenres, AnimeCardRating, AnimeCardStatus } from "./widget";
 import { AnimeCardProps } from "./types/AnimeCard.types";
+import { setSelectedAnime } from "@/store/app/appSlice";
 import { Tv2 } from "lucide-react";
 import "./AnimeCard.scss";
 
 const AnimeCard: React.FC<AnimeCardProps> = ({ anime, orientation = "vertical" }) => {
+  const dispatch = useDispatch();
+
   const title = anime.title.english || anime.title.romaji;
 
+  /* #region handlers */
+  const handleCardClick = () => {
+    dispatch(setSelectedAnime(anime));
+  };
+  /* #endregion */
+
   return orientation === "vertical" ? (
-    <div className="flex flex-col p-4 gap-y-3 rounded-xl shadow-xl bg-zinc-600/10 border border-zinc-800 text-zinc-100 transition-all duration-300 cursor-pointer hover:bg-zinc-600/30">
+    <div
+      onClick={handleCardClick}
+      className="flex flex-col p-4 gap-y-3 rounded-xl shadow-xl bg-zinc-600/10 border border-zinc-800 text-zinc-100 transition-all duration-300 cursor-pointer hover:bg-zinc-600/30"
+    >
       <img
         src={anime.coverImage.large}
         alt={title}
@@ -16,7 +29,9 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime, orientation = "vertical" }
       />
       <h3 className="text-lg font-semibold text-center truncate">{title}</h3>
       <div className="h-8">
-        <AnimeCardGenres genres={anime.genres.slice(0, 3)} />
+        <div className="flex flex-nowrap justify-center gap-1 text-xs">
+          <AnimeCardGenres genres={anime.genres.slice(0, 3)} />
+        </div>
       </div>
       <div className="flex items-center justify-between mt-1 text-zinc-400 text-sm">
         <div className="flex items-center gap-1">
@@ -34,7 +49,10 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime, orientation = "vertical" }
       </div>
     </div>
   ) : (
-    <div className="flex items-center px-3 py-2 gap-3 rounded-xl text-zinc-100 transition-all duration-300 cursor-pointer hover:bg-zinc-700/80">
+    <div
+      onClick={handleCardClick}
+      className="flex items-center px-3 py-2 gap-3 rounded-xl text-zinc-100 transition-all duration-300 cursor-pointer hover:bg-zinc-700/80"
+    >
       <img src={anime.coverImage.medium} alt={title} title={title} className="w-12 h-16 rounded-xl object-cover" />
       <div className="w-full text-sm">
         <h4 className="font-semibold">{title}</h4>

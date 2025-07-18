@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import { AnimeCard } from "@/components/common";
 import { Anime } from "@/types/common.types";
-import { getSearchAnimeListRequest } from "@/store/app/appSlice";
+import { getSearchAnimeListRequest, setSelectedAnime } from "@/store/app/appSlice";
 import { Search } from "lucide-react";
 import logoImg from "@/assets/images/logo.png";
 
@@ -20,6 +20,10 @@ const Navbar = () => {
   const handleSearchChange = _.debounce((value: string) => {
     setSearchTerm(value);
   }, 400);
+
+  const handleLogoClick = () => {
+    dispatch(setSelectedAnime(null));
+  };
   /* #endregion */
 
   /* #region effects */
@@ -31,21 +35,27 @@ const Navbar = () => {
   }, [searchTerm]);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClick = (event: MouseEvent) => {
       if (resultsRef.current && !resultsRef.current.contains(event.target as Node)) {
         setSearchTerm("");
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, []);
   /* #endregion */
 
   return (
-    <nav className="w-[80%] sticky mx-auto px-6 py-4 rounded-xl shadow-xl bg-zinc-700/10 backdrop-blur-xs border border-zinc-800 z-50">
+    <nav className="w-[80%] sticky mx-auto px-6 py-4 rounded-xl shadow-xl bg-zinc-700/10 backdrop-blur-xs border border-zinc-800 z-20">
       <div className="flex flex-col gap-2 relative">
         <div className="flex items-center justify-between">
-          <img src={logoImg} alt="EasyAnime" title="EasyAnime" className="w-20" />
+          <img
+            src={logoImg}
+            alt="EasyAnime"
+            title="EasyAnime"
+            className="w-20 cursor-pointer"
+            onClick={handleLogoClick}
+          />
           <div className="w-full max-w-sm relative">
             <input
               type="text"
@@ -59,7 +69,7 @@ const Navbar = () => {
         {searchTerm.trim().length >= 3 && searchAnimeList.length > 0 && (
           <div
             ref={resultsRef}
-            className="w-full max-w-sm max-h-96 absolute top-18 right-0 overflow-y-auto rounded-xl shadow-xl bg-zinc-900/80 backdrop-blur-xs border border-zinc-800 z-50"
+            className="w-full max-w-sm max-h-96 absolute top-18 right-0 overflow-y-auto rounded-xl shadow-xl bg-zinc-900/80 backdrop-blur-xs border border-zinc-800 z-30"
           >
             {searchAnimeList.map((anime: Anime) => (
               <AnimeCard key={anime.id} anime={anime} orientation="horizontal" />

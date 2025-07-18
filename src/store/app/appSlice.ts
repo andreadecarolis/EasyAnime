@@ -12,6 +12,7 @@ import { HttpResponseFailure } from "@/types/httpRequest.types";
 import { filterAnimeListByPopularity, filterEpisodeListByPopularity } from "@/utils/common.utils";
 
 export interface AppState {
+  selectedAnime: Anime | null;
   trendingAnimeList: Anime[];
   popularAnimeList: Anime[];
   airingSoonEpisodeList: Episode[];
@@ -21,6 +22,7 @@ export interface AppState {
 }
 
 const initialState: AppState = {
+  selectedAnime: null,
   trendingAnimeList: [],
   popularAnimeList: [],
   airingSoonEpisodeList: [],
@@ -33,6 +35,11 @@ const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    /* #region anime */
+    setSelectedAnime: (state, action: PayloadAction<Anime | null>) => {
+      state.selectedAnime = action.payload;
+    },
+    /* #endregion */
     /* #region getTrendingAnimeList */
     getTrendingAnimeListRequest: (state) => {
       state.loading = true;
@@ -94,6 +101,7 @@ const appSlice = createSlice({
 });
 
 export const {
+  setSelectedAnime,
   getTrendingAnimeListRequest,
   getTrendingAnimeListSuccess,
   getTrendingAnimeListFailure,

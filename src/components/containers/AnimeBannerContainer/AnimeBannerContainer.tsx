@@ -1,7 +1,17 @@
+import { useDispatch } from "react-redux";
 import { AnimeBannerContainerProps } from "./types/AnimeBannerContainer.types";
+import { setSelectedAnime } from "@/store/app/appSlice";
 import "./AnimeBannerContainer.scss";
 
 const AnimeBannerContainer: React.FC<AnimeBannerContainerProps> = ({ anime }) => {
+  const dispatch = useDispatch();
+
+  /* #region handlers */
+  const handleCardClick = () => {
+    dispatch(setSelectedAnime(anime));
+  };
+  /* #endregion */
+
   return (
     <div
       className="w-full h-[400px] relative overflow-hidden rounded-xl shadow-xl border border-zinc-800 bg-cover bg-center"
@@ -17,7 +27,8 @@ const AnimeBannerContainer: React.FC<AnimeBannerContainerProps> = ({ anime }) =>
           </p>
           <button
             type="button"
-            className="px-6 py-3 rounded-xl backdrop-blur-xs border border-zinc-100/10 bg-zinc-100/10 font-semibold transition-all duration-300 hover:bg-zinc-100/20"
+            onClick={handleCardClick}
+            className="px-6 py-3 rounded-xl backdrop-blur-xs border border-zinc-100/10 bg-zinc-100/10 font-semibold transition-all duration-300 cursor-pointer hover:bg-zinc-100/20"
           >
             Discover more
           </button>

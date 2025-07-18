@@ -3,7 +3,7 @@ import "./AnimeCardGenres.scss";
 
 const AnimeCardGenres: React.FC<AnimeCardGenresProps> = ({ genres }) => {
   return (
-    <div className="flex flex-nowrap justify-center gap-1 text-xs">
+    <>
       {genres.map((genre: string) => (
         <button
           key={genre}
@@ -12,7 +12,7 @@ const AnimeCardGenres: React.FC<AnimeCardGenresProps> = ({ genres }) => {
           {genre}
         </button>
       ))}
-    </div>
+    </>
   );
 };
 
