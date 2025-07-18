@@ -5,9 +5,12 @@ const AnimeCardGenres: React.FC<AnimeCardGenresProps> = ({ genres }) => {
   return (
     <div className="flex flex-nowrap justify-center gap-1 text-xs">
       {genres.map((genre: string) => (
-        <span key={genre} className="px-2 py-0.5 rounded-full bg-zinc-800/50 border border-zinc-700 text-zinc-400">
+        <button
+          key={genre}
+          className="px-2 py-0.5 rounded-xl backdrop-blur-xs border border-zinc-100/10 bg-zinc-100/10 transition-all duration-300 hover:bg-zinc-100/20"
+        >
           {genre}
-        </span>
+        </button>
       ))}
     </div>
   );

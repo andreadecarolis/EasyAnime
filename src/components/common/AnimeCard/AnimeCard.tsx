@@ -4,9 +4,10 @@ import { Tv2 } from "lucide-react";
 import "./AnimeCard.scss";
 
 const AnimeCard: React.FC<AnimeCardProps> = ({ anime }) => {
-  const title = anime.title.english || anime.title.romaji || anime.title.native;
+  const title = anime.title.english || anime.title.romaji;
+
   return (
-    <div className="flex flex-col p-4 gap-y-3 rounded-xl shadow-xl bg-zinc-600/10 border border-zinc-800 text-zinc-100 transition-all duration-300 hover:bg-zinc-600/30">
+    <div className="flex flex-col p-4 gap-y-3 rounded-xl shadow-xl scale-[0.99] bg-zinc-600/10 border border-zinc-800 text-zinc-100 transition-all duration-300 hover:scale-[1.00] hover:bg-zinc-600/30">
       <img
         src={anime.coverImage.large}
         alt={title}
@@ -20,7 +21,9 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime }) => {
       <div className="flex items-center justify-between mt-1 text-zinc-400 text-sm">
         <div className="flex items-center gap-1">
           <Tv2 size={14} />
-          <span>{anime.episodes ?? "N/A"} episodi</span>
+          <span>
+            {anime.episodes ?? "N/A"} {anime.episodes === 1 ? "episode" : "episodes"}
+          </span>
         </div>
         <div className="flex items-center gap-1">
           <AnimeCardStatus status={anime.status} />

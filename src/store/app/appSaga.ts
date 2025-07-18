@@ -1,9 +1,9 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { ANILIST_API_URL } from "@/consts/common.consts";
 import {
-  GetLatestAnimeListPayload,
-  GetLatestAnimeListResponse,
-  GetLatestAnimeListResponseSchema,
+  GetAiringSoonEpisodeListPayload,
+  GetAiringSoonEpisodeListResponse,
+  GetAiringSoonEpisodeListResponseSchema,
   GetPopularAnimeListPayload,
   GetPopularAnimeListResponse,
   GetPopularAnimeListResponseSchema,
@@ -14,9 +14,9 @@ import {
 import { HttpResponseFailure } from "@/types/httpRequest.types";
 import { handleHttpRequest } from "@/utils/httpRequest.utils";
 import {
-  getLatestAnimeListFailure,
-  getLatestAnimeListRequest,
-  getLatestAnimeListSuccess,
+  getAiringSoonEpisodeListFailure,
+  getAiringSoonEpisodeListRequest,
+  getAiringSoonEpisodeListSuccess,
   getPopularAnimeListFailure,
   getPopularAnimeListRequest,
   getPopularAnimeListSuccess,
@@ -44,22 +44,25 @@ function* handleGetTrendingAnimeList() {
         query: `
           query ($season: MediaSeason, $seasonYear: Int) {
             Page(perPage: 10) {
-              media(season: $season, seasonYear: $seasonYear, type: ANIME, sort: POPULARITY_DESC, isAdult: false) {
+              media(season: $season, seasonYear: $seasonYear, type: ANIME, isAdult: false, sort: POPULARITY_DESC) {
                 id
                 title {
                   romaji
                   english
                   native
                 }
+                description
                 status
                 genres
                 averageScore
+                popularity
                 episodes
                 coverImage {
                   extraLarge
                   large
                   medium
                 }
+                bannerImage
               }
             }
           }
@@ -95,22 +98,25 @@ function* handleGetPopularAnimeList() {
         query: `
           query TopRatedAnime {
             Page(perPage: 10) {
-              media(type: ANIME, sort: SCORE_DESC, isAdult: false) {
+              media(type: ANIME, isAdult: false, sort: SCORE_DESC) {
                 id
                 title {
                   romaji
                   english
                   native
                 }
+                description
                 status
                 genres
                 averageScore
+                popularity
                 episodes
                 coverImage {
                   extraLarge
                   large
                   medium
                 }
+                bannerImage
               }
             }
           }
@@ -125,39 +131,46 @@ function* handleGetPopularAnimeList() {
 }
 /* #endregion */
 
-/* #region getLatestAnimeList */
-function* onGetLatestAnimeListSuccess(successResponse: GetLatestAnimeListResponse) {
-  yield put(getLatestAnimeListSuccess(successResponse));
+/* #region getAiringSoonEpisodeList */
+function* onGetAiringSoonEpisodeListSuccess(successResponse: GetAiringSoonEpisodeListResponse) {
+  yield put(getAiringSoonEpisodeListSuccess(successResponse));
 }
 
-function* onGetLatestAnimeListFailure(failureResponse: HttpResponseFailure) {
-  yield put(getLatestAnimeListFailure(failureResponse));
+function* onGetAiringSoonEpisodeListFailure(failureResponse: HttpResponseFailure) {
+  yield put(getAiringSoonEpisodeListFailure(failureResponse));
 }
 
-function* handleGetLatestAnimeList() {
+function* handleGetAiringSoonEpisodeList() {
   yield call(
-    handleHttpRequest<GetLatestAnimeListPayload, GetLatestAnimeListResponse>,
+    handleHttpRequest<GetAiringSoonEpisodeListPayload, GetAiringSoonEpisodeListResponse>,
     {
       requestCode: ANILIST_API_URL,
       payload: {
         query: `
-          query NewestAnime {
-            Page(perPage: 10) {
-              media(type: ANIME, sort: ID_DESC, episodes_greater: 0, averageScore_greater: 0, isAdult: false) {
-                id
-                title {
-                  romaji
-                  english
-                  native
-                }
-                status
-                genres
-                averageScore
-                episodes
-                coverImage {
-                  extraLarge
-                  large
-                  medium
+          query {
+            Page(perPage: 48) {
+              airingSchedules(notYetAired: true, sort: TIME) {
+                airingAt
+                episode
+                media {
+                  id
+                  title {
+                    romaji
+                    english
+                    native
+                  }
+                  description
+                  status
+                  genres
+                  averageScore
+                  popularity
+                  episodes
+                  coverImage {
+                    extraLarge
+                    large
+                    medium
+                  }
+                  bannerImage
                 }
               }
             }
@@ -166,9 +179,9 @@ function* handleGetLatestAnimeList() {
         variables: {},
       },
     },
-    GetLatestAnimeListResponseSchema,
-    onGetLatestAnimeListSuccess,
-    onGetLatestAnimeListFailure,
+    GetAiringSoonEpisodeListResponseSchema,
+    onGetAiringSoonEpisodeListSuccess,
+    onGetAiringSoonEpisodeListFailure,
   );
 }
 /* #endregion */
@@ -176,5 +189,5 @@ function* handleGetLatestAnimeList() {
 export default function* appSaga() {
   yield takeLatest(getTrendingAnimeListRequest, handleGetTrendingAnimeList);
   yield takeLatest(getPopularAnimeListRequest, handleGetPopularAnimeList);
-  yield takeLatest(getLatestAnimeListRequest, handleGetLatestAnimeList);
+  yield takeLatest(getAiringSoonEpisodeListRequest, handleGetAiringSoonEpisodeList);
 }

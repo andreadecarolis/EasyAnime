@@ -7,27 +7,27 @@ const AnimeCardStatus: React.FC<AnimeCardStatusProps> = ({ status }) => {
 
   switch (status) {
     case "CANCELLED": {
-      info.label = "Cancellato";
+      info.label = "Cancelled";
       info.icon = <BookmarkX size={14} />;
       break;
     }
     case "FINISHED": {
-      info.label = "Completato";
+      info.label = "Finished";
       info.icon = <BookmarkCheck size={14} />;
       break;
     }
     case "HIATUS": {
-      info.label = "In pausa";
+      info.label = "Suspended";
       info.icon = <MonitorPause size={14} />;
       break;
     }
     case "NOT_YET_RELEASED": {
-      info.label = "Programmato";
+      info.label = "Scheduled";
       info.icon = <CalendarCheck2 size={14} />;
       break;
     }
     case "RELEASING": {
-      info.label = "In corso";
+      info.label = "Releasing";
       info.icon = <MonitorPlay size={14} />;
       break;
     }

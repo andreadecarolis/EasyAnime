@@ -1,16 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   Anime,
-  GetLatestAnimeListResponse,
+  Episode,
+  GetAiringSoonEpisodeListResponse,
   GetPopularAnimeListResponse,
   GetTrendingAnimeListResponse,
 } from "@/types/common.types";
 import { HttpResponseFailure } from "@/types/httpRequest.types";
+import { filterAnimeListByPopularity, filterEpisodeListByPopularity } from "@/utils/common.utils";
 
 export interface AppState {
   trendingAnimeList: Anime[];
   popularAnimeList: Anime[];
-  latestAnimeList: Anime[];
+  airingSoonEpisodeList: Episode[];
   loading: boolean;
   error?: number;
 }
@@ -18,7 +20,7 @@ export interface AppState {
 const initialState: AppState = {
   trendingAnimeList: [],
   popularAnimeList: [],
-  latestAnimeList: [],
+  airingSoonEpisodeList: [],
   loading: false,
   error: undefined,
 };
@@ -32,7 +34,7 @@ const appSlice = createSlice({
       state.loading = true;
     },
     getTrendingAnimeListSuccess: (state, action: PayloadAction<GetTrendingAnimeListResponse>) => {
-      state.trendingAnimeList = action.payload.data.Page.media;
+      state.trendingAnimeList = filterAnimeListByPopularity(action.payload.data.Page.media);
       state.loading = false;
       state.error = undefined;
     },
@@ -46,7 +48,7 @@ const appSlice = createSlice({
       state.loading = true;
     },
     getPopularAnimeListSuccess: (state, action: PayloadAction<GetPopularAnimeListResponse>) => {
-      state.popularAnimeList = action.payload.data.Page.media;
+      state.popularAnimeList = filterAnimeListByPopularity(action.payload.data.Page.media);
       state.loading = false;
       state.error = undefined;
     },
@@ -55,16 +57,16 @@ const appSlice = createSlice({
       state.error = action.payload.status;
     },
     /* #endregion */
-    /* #region getLatestAnimeList */
-    getLatestAnimeListRequest: (state) => {
+    /* #region getAiringSoonEpisodeList */
+    getAiringSoonEpisodeListRequest: (state) => {
       state.loading = true;
     },
-    getLatestAnimeListSuccess: (state, action: PayloadAction<GetLatestAnimeListResponse>) => {
-      state.latestAnimeList = action.payload.data.Page.media;
+    getAiringSoonEpisodeListSuccess: (state, action: PayloadAction<GetAiringSoonEpisodeListResponse>) => {
+      state.airingSoonEpisodeList = filterEpisodeListByPopularity(action.payload.data.Page.airingSchedules);
       state.loading = false;
       state.error = undefined;
     },
-    getLatestAnimeListFailure: (state, action: PayloadAction<HttpResponseFailure>) => {
+    getAiringSoonEpisodeListFailure: (state, action: PayloadAction<HttpResponseFailure>) => {
       state.loading = false;
       state.error = action.payload.status;
     },
@@ -79,8 +81,8 @@ export const {
   getPopularAnimeListRequest,
   getPopularAnimeListSuccess,
   getPopularAnimeListFailure,
-  getLatestAnimeListRequest,
-  getLatestAnimeListSuccess,
-  getLatestAnimeListFailure,
+  getAiringSoonEpisodeListRequest,
+  getAiringSoonEpisodeListSuccess,
+  getAiringSoonEpisodeListFailure,
 } = appSlice.actions;
 export default appSlice.reducer;

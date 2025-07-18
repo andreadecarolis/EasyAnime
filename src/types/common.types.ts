@@ -5,7 +5,7 @@ import { HttpResponseSchema } from "./httpRequest.types";
 export const AnimeTitleSchema = z.object({
   romaji: z.string(),
   english: z.string().nullable(),
-  native: z.string(),
+  native: z.string().nullable(),
 });
 export type AnimeTitle = z.infer<typeof AnimeTitleSchema>;
 
@@ -22,13 +22,23 @@ export type AnimeCoverImage = z.infer<typeof AnimeCoverImageSchema>;
 export const AnimeSchema = z.object({
   id: z.number(),
   title: AnimeTitleSchema,
+  description: z.string().nullable(),
   status: AnimeStatusSchema,
   genres: z.array(z.string()),
   averageScore: z.number().nullable(),
+  popularity: z.number().nullable(),
   episodes: z.number().nullable(),
   coverImage: AnimeCoverImageSchema,
+  bannerImage: z.string().nullable(),
 });
 export type Anime = z.infer<typeof AnimeSchema>;
+
+export const EpisodeShema = z.object({
+  airingAt: z.number(),
+  episode: z.number(),
+  media: AnimeSchema,
+});
+export type Episode = z.infer<typeof EpisodeShema>;
 /* #endregion */
 
 /* #region getTrendingAnimeList */
@@ -59,16 +69,16 @@ export const GetPopularAnimeListResponseSchema = HttpResponseSchema.extend({
 export type GetPopularAnimeListResponse = z.infer<typeof GetPopularAnimeListResponseSchema>;
 /* #endregion */
 
-/* #region getPopularAnimeList */
-export const GetLatestAnimeListPayloadSchema = z.object({});
-export type GetLatestAnimeListPayload = z.infer<typeof GetLatestAnimeListPayloadSchema>;
+/* #region getAiringSoonEpisodeList */
+export const GetAiringSoonEpisodeListPayloadSchema = z.object({});
+export type GetAiringSoonEpisodeListPayload = z.infer<typeof GetAiringSoonEpisodeListPayloadSchema>;
 
-export const GetLatestAnimeListResponseSchema = HttpResponseSchema.extend({
+export const GetAiringSoonEpisodeListResponseSchema = HttpResponseSchema.extend({
   data: z.object({
     Page: z.object({
-      media: z.array(AnimeSchema),
+      airingSchedules: z.array(EpisodeShema),
     }),
   }),
 });
-export type GetLatestAnimeListResponse = z.infer<typeof GetLatestAnimeListResponseSchema>;
+export type GetAiringSoonEpisodeListResponse = z.infer<typeof GetAiringSoonEpisodeListResponseSchema>;
 /* #endregion */

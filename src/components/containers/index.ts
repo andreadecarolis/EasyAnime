@@ -1,5 +1,6 @@
-import { LatestAnimeContainer } from "./LatestAnimeContainer";
+import { AiringSoonEpisodeContainer } from "./AiringSoonEpisodeContainer";
+import { AnimeBannerContainer } from "./AnimeBannerContainer";
 import { PopularAnimeContainer } from "./PopularAnimeContainer";
 import { TrendingAnimeContainer } from "./TrendingAnimeContainer";
 
-export { LatestAnimeContainer, PopularAnimeContainer, TrendingAnimeContainer };
+export { AiringSoonEpisodeContainer, AnimeBannerContainer, PopularAnimeContainer, TrendingAnimeContainer };
