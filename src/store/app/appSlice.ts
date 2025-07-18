@@ -4,6 +4,8 @@ import {
   Episode,
   GetAiringSoonEpisodeListResponse,
   GetPopularAnimeListResponse,
+  GetSearchAnimeListResponse,
+  GetSearchAnimeListArgs,
   GetTrendingAnimeListResponse,
 } from "@/types/common.types";
 import { HttpResponseFailure } from "@/types/httpRequest.types";
@@ -13,6 +15,7 @@ export interface AppState {
   trendingAnimeList: Anime[];
   popularAnimeList: Anime[];
   airingSoonEpisodeList: Episode[];
+  searchAnimeList: Anime[];
   loading: boolean;
   error?: number;
 }
@@ -21,6 +24,7 @@ const initialState: AppState = {
   trendingAnimeList: [],
   popularAnimeList: [],
   airingSoonEpisodeList: [],
+  searchAnimeList: [],
   loading: false,
   error: undefined,
 };
@@ -71,6 +75,21 @@ const appSlice = createSlice({
       state.error = action.payload.status;
     },
     /* #endregion */
+    /* #region getSearchAnimeList */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getSearchAnimeListRequest: (state, _action: PayloadAction<GetSearchAnimeListArgs>) => {
+      state.loading = true;
+    },
+    getSearchAnimeListSuccess: (state, action: PayloadAction<GetSearchAnimeListResponse>) => {
+      state.searchAnimeList = action.payload.data.Page.media;
+      state.loading = false;
+      state.error = undefined;
+    },
+    getSearchAnimeListFailure: (state, action: PayloadAction<HttpResponseFailure>) => {
+      state.loading = false;
+      state.error = action.payload.status;
+    },
+    /* #endregion */
   },
 });
 
@@ -84,5 +103,8 @@ export const {
   getAiringSoonEpisodeListRequest,
   getAiringSoonEpisodeListSuccess,
   getAiringSoonEpisodeListFailure,
+  getSearchAnimeListRequest,
+  getSearchAnimeListSuccess,
+  getSearchAnimeListFailure,
 } = appSlice.actions;
 export default appSlice.reducer;

@@ -82,3 +82,19 @@ export const GetAiringSoonEpisodeListResponseSchema = HttpResponseSchema.extend(
 });
 export type GetAiringSoonEpisodeListResponse = z.infer<typeof GetAiringSoonEpisodeListResponseSchema>;
 /* #endregion */
+
+/* #region getSearchAnimeList */
+export type GetSearchAnimeListArgs = { searchTerm: string };
+
+export const GetSearchAnimeListPayloadSchema = z.object({});
+export type GetSearchAnimeListPayload = z.infer<typeof GetSearchAnimeListPayloadSchema>;
+
+export const GetSearchAnimeListResponseSchema = HttpResponseSchema.extend({
+  data: z.object({
+    Page: z.object({
+      media: z.array(AnimeSchema),
+    }),
+  }),
+});
+export type GetSearchAnimeListResponse = z.infer<typeof GetSearchAnimeListResponseSchema>;
+/* #endregion */

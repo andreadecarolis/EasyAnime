@@ -1,5 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { ANILIST_API_URL } from "@/consts/common.consts";
+import { PayloadAction } from "@reduxjs/toolkit";
+import { ANILIST_API_ANIME_REQUEST_FORMAT, ANILIST_API_URL } from "@/consts/common.consts";
 import {
   GetAiringSoonEpisodeListPayload,
   GetAiringSoonEpisodeListResponse,
@@ -7,6 +8,10 @@ import {
   GetPopularAnimeListPayload,
   GetPopularAnimeListResponse,
   GetPopularAnimeListResponseSchema,
+  GetSearchAnimeListPayload,
+  GetSearchAnimeListResponse,
+  GetSearchAnimeListResponseSchema,
+  GetSearchAnimeListArgs,
   GetTrendingAnimeListPayload,
   GetTrendingAnimeListResponse,
   GetTrendingAnimeListResponseSchema,
@@ -20,6 +25,9 @@ import {
   getPopularAnimeListFailure,
   getPopularAnimeListRequest,
   getPopularAnimeListSuccess,
+  getSearchAnimeListFailure,
+  getSearchAnimeListRequest,
+  getSearchAnimeListSuccess,
   getTrendingAnimeListFailure,
   getTrendingAnimeListRequest,
   getTrendingAnimeListSuccess,
@@ -45,24 +53,7 @@ function* handleGetTrendingAnimeList() {
           query ($season: MediaSeason, $seasonYear: Int) {
             Page(perPage: 10) {
               media(season: $season, seasonYear: $seasonYear, type: ANIME, isAdult: false, sort: POPULARITY_DESC) {
-                id
-                title {
-                  romaji
-                  english
-                  native
-                }
-                description
-                status
-                genres
-                averageScore
-                popularity
-                episodes
-                coverImage {
-                  extraLarge
-                  large
-                  medium
-                }
-                bannerImage
+                ${ANILIST_API_ANIME_REQUEST_FORMAT}
               }
             }
           }
@@ -99,24 +90,7 @@ function* handleGetPopularAnimeList() {
           query TopRatedAnime {
             Page(perPage: 10) {
               media(type: ANIME, isAdult: false, sort: SCORE_DESC) {
-                id
-                title {
-                  romaji
-                  english
-                  native
-                }
-                description
-                status
-                genres
-                averageScore
-                popularity
-                episodes
-                coverImage {
-                  extraLarge
-                  large
-                  medium
-                }
-                bannerImage
+                ${ANILIST_API_ANIME_REQUEST_FORMAT}
               }
             }
           }
@@ -153,24 +127,7 @@ function* handleGetAiringSoonEpisodeList() {
                 airingAt
                 episode
                 media {
-                  id
-                  title {
-                    romaji
-                    english
-                    native
-                  }
-                  description
-                  status
-                  genres
-                  averageScore
-                  popularity
-                  episodes
-                  coverImage {
-                    extraLarge
-                    large
-                    medium
-                  }
-                  bannerImage
+                  ${ANILIST_API_ANIME_REQUEST_FORMAT}
                 }
               }
             }
@@ -186,8 +143,45 @@ function* handleGetAiringSoonEpisodeList() {
 }
 /* #endregion */
 
+/* #region getSearchAnimeList */
+function* onGetSearchAnimeListSuccess(successResponse: GetSearchAnimeListResponse) {
+  yield put(getSearchAnimeListSuccess(successResponse));
+}
+
+function* onGetSearchAnimeListFailure(failureResponse: HttpResponseFailure) {
+  yield put(getSearchAnimeListFailure(failureResponse));
+}
+
+function* handleGetSearchAnimeList(action: PayloadAction<GetSearchAnimeListArgs>) {
+  yield call(
+    handleHttpRequest<GetSearchAnimeListPayload, GetSearchAnimeListResponse>,
+    {
+      requestCode: ANILIST_API_URL,
+      payload: {
+        query: `
+          query ($search: String) {
+            Page(perPage: 10) {
+              media(search: $search, type: ANIME, sort: SEARCH_MATCH) {
+                ${ANILIST_API_ANIME_REQUEST_FORMAT}
+              }
+            }
+          }
+        `,
+        variables: {
+          search: action.payload.searchTerm,
+        },
+      },
+    },
+    GetSearchAnimeListResponseSchema,
+    onGetSearchAnimeListSuccess,
+    onGetSearchAnimeListFailure,
+  );
+}
+/* #endregion */
+
 export default function* appSaga() {
   yield takeLatest(getTrendingAnimeListRequest, handleGetTrendingAnimeList);
   yield takeLatest(getPopularAnimeListRequest, handleGetPopularAnimeList);
   yield takeLatest(getAiringSoonEpisodeListRequest, handleGetAiringSoonEpisodeList);
+  yield takeLatest(getSearchAnimeListRequest, handleGetSearchAnimeList);
 }
