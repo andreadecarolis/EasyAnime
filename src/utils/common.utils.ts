@@ -1,4 +1,4 @@
-import { Anime, Episode } from "@/types/common.types";
+import { Anime, AnimeTrailer, Episode } from "@/types/common.types";
 
 /* #region anime */
 export const filterByPopularity = (anime: Anime) => {
@@ -11,6 +11,19 @@ export const filterAnimeListByPopularity = (list: Anime[]): Anime[] => {
 
 export const filterEpisodeListByPopularity = (list: Episode[]): Episode[] => {
   return list.filter((episode) => filterByPopularity(episode.media));
+};
+
+export const getTrailerUrl = (trailer: AnimeTrailer): string | null => {
+  switch (trailer.site.toLowerCase()) {
+    case "youtube":
+      return `https://www.youtube.com/watch?v=${trailer.id}`;
+    case "dailymotion":
+      return `https://www.dailymotion.com/video/${trailer.id}`;
+    case "vimeo":
+      return `https://vimeo.com/${trailer.id}`;
+    default:
+      return null;
+  }
 };
 /* #endregion */
 
@@ -28,6 +41,15 @@ export const getCurrentSeason = (): string => {
 
 export const convertTimestampToDate = (timestamp: number): string => {
   const date = new Date(timestamp * 1000);
-  return date.toLocaleString(navigator.language || "en-US", { dateStyle: "short", timeStyle: "short" });
+  return date.toLocaleString("it-IT", { dateStyle: "short", timeStyle: "short" });
+};
+
+export const convertSlugsToDate = (year: number, month: number, day: number): string => {
+  const date = new Date(year, month - 1, day);
+  return new Intl.DateTimeFormat(navigator.language || "en-US", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+  }).format(date);
 };
 /* #endregion */

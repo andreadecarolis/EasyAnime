@@ -44,7 +44,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime, orientation = "vertical" }
           <AnimeCardStatus status={anime.status} />
         </div>
       </div>
-      <div className="mt-2">
+      <div className="mt-2 text-zinc-400 text-xs">
         <AnimeCardRating averageScore={anime.averageScore ?? 0} />
       </div>
     </div>

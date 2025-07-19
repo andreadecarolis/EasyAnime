@@ -8,10 +8,9 @@ const AnimeCardRating: React.FC<AnimeCardRatingProps> = ({ averageScore }) => {
   const hasHalfStar = stars % 1 !== 0;
 
   return (
-    <div className="mt-2 text-xs">
-      <div className="flex justify-between text-zinc-400 mb-1">
-        <span>Rating</span>
-        <span>{averageScore ? `${((averageScore / 100) * 5).toFixed(1)} / 5` : "N/A"}</span>
+    <>
+      <div className="flex justify-start mb-1">
+        <span>Rating of {averageScore ? `${((averageScore / 100) * 5).toFixed(1)} / 5` : "N/A"}</span>
       </div>
       <div className="flex items-center gap-0.5 text-amber-400">
         {Array.from({ length: fullStars }).map((_, i) => (
@@ -22,7 +21,7 @@ const AnimeCardRating: React.FC<AnimeCardRatingProps> = ({ averageScore }) => {
           <Star key={`empty-${i}`} size={16} className="text-zinc-400" />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

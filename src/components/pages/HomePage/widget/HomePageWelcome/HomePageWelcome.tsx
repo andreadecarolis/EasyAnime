@@ -4,7 +4,7 @@ import "./HomePageWelcome.scss";
 
 const HomePageWelcome: React.FC<HomePageWelcomeProps> = () => {
   return (
-    <div className="flex flex-row items-center justify-center mb-2">
+    <div className="flex items-center justify-center mb-2">
       <img src={mascotteImg} alt="Marin Kitagawa" title="Marin Kitagawa" className="w-48 z-10" />
       <div className="max-w-lg pl-20 space-y-4 text-white text-left">
         <h1 className="text-primary text-3xl font-bold">Welcome to EasyAnime</h1>

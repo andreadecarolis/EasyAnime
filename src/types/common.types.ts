@@ -12,12 +12,45 @@ export type AnimeTitle = z.infer<typeof AnimeTitleSchema>;
 export const AnimeStatusSchema = z.enum(["FINISHED", "RELEASING", "NOT_YET_RELEASED", "CANCELLED", "HIATUS"]);
 export type AnimeStatus = z.infer<typeof AnimeStatusSchema>;
 
+export const AnimeNextAiringEpisodeSchema = z.object({
+  airingAt: z.number(),
+  timeUntilAiring: z.number(),
+  episode: z.number(),
+});
+export type AnimeNextAiringEpisode = z.infer<typeof AnimeNextAiringEpisodeSchema>;
+
+export const AnimeStudiosSchema = z.object({
+  nodes: z.array(z.object({ name: z.string() })),
+});
+export type AnimeStudios = z.infer<typeof AnimeStudiosSchema>;
+
+export const AnimeStartDateSchema = z.object({
+  year: z.number(),
+  month: z.number(),
+  day: z.number(),
+});
+export type AnimeStartDate = z.infer<typeof AnimeStartDateSchema>;
+
+export const AnimeEndDateSchema = z.object({
+  year: z.number().nullable(),
+  month: z.number().nullable(),
+  day: z.number().nullable(),
+});
+export type AnimeEndDate = z.infer<typeof AnimeEndDateSchema>;
+
 export const AnimeCoverImageSchema = z.object({
   extraLarge: z.string(),
   large: z.string(),
   medium: z.string(),
 });
 export type AnimeCoverImage = z.infer<typeof AnimeCoverImageSchema>;
+
+export const AnimeTrailerSchema = z.object({
+  id: z.string(),
+  site: z.string(),
+  thumbnail: z.string(),
+});
+export type AnimeTrailer = z.infer<typeof AnimeTrailerSchema>;
 
 export const AnimeSchema = z.object({
   id: z.number(),
@@ -28,8 +61,13 @@ export const AnimeSchema = z.object({
   averageScore: z.number().nullable(),
   popularity: z.number().nullable(),
   episodes: z.number().nullable(),
+  nextAiringEpisode: AnimeNextAiringEpisodeSchema.nullable(),
+  studios: AnimeStudiosSchema.nullable(),
+  startDate: AnimeStartDateSchema,
+  endDate: AnimeEndDateSchema,
   coverImage: AnimeCoverImageSchema,
   bannerImage: z.string().nullable(),
+  trailer: AnimeTrailerSchema.nullable(),
 });
 export type Anime = z.infer<typeof AnimeSchema>;
 
