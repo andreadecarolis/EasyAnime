@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AnimeCard } from "@/components/common";
 import { Anime } from "@/types/common.types";
 import { getSearchAnimeList } from "@/utils/common.utils";
-import { Search } from "lucide-react";
+import { Search, User } from "lucide-react";
 import logoImg from "@/assets/images/logo.png";
 import "./Navbar.scss";
 
@@ -28,6 +28,10 @@ const Navbar = () => {
 
   const handleLogoClick = () => {
     navigate("/");
+  };
+
+  const handleUserClick = () => {
+    navigate("/account");
   };
   /* #endregion */
 
@@ -61,14 +65,17 @@ const Navbar = () => {
             className="w-20 cursor-pointer"
             onClick={handleLogoClick}
           />
-          <div className="w-full max-w-sm relative">
-            <input
-              type="text"
-              placeholder="Search for an anime..."
-              onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-xl shadow-xl bg-zinc-600/10 border border-zinc-800 text-zinc-100 transition-all duration-300 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-primary"
-            />
-            <Search className="absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400" size={20} />
+          <div className="flex items-center gap-x-4">
+            <div className="w-full max-w-sm relative flex">
+              <input
+                type="text"
+                placeholder="Search for an anime..."
+                onChange={(e) => handleSearchChange(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 rounded-xl shadow-xl bg-zinc-600/10 border border-zinc-800 text-zinc-100 transition-all duration-300 placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-primary"
+              />
+              <Search className="absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400" size={20} />
+            </div>
+            <User className="text-zinc-400 cursor-pointer" size={20} onClick={handleUserClick} />
           </div>
         </div>
         {searchTerm.trim().length >= 3 && animeList.length > 0 && (

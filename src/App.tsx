@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import { Navbar, Pattern } from "./components/common";
-import { AnimePage, HomePage } from "./components/pages";
+import { AccountPage, AnimePage, HomePage } from "./components/pages";
 
 function App() {
   return (
@@ -12,6 +12,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/anime/:id" element={<AnimePage />} />
+            <Route path="/account" element={<AccountPage />} />
           </Routes>
         </div>
       </div>
