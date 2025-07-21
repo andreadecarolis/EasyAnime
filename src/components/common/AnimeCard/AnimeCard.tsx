@@ -1,23 +1,17 @@
-import { useNavigate } from "react-router-dom";
+import useRoute from "@/hooks/useRoute";
 import { AnimeCardGenres, AnimeCardRating, AnimeCardStatus } from "./widget";
 import { AnimeCardProps } from "./types/AnimeCard.types";
 import { Tv2 } from "lucide-react";
 import "./AnimeCard.scss";
 
 const AnimeCard: React.FC<AnimeCardProps> = ({ anime, orientation = "vertical" }) => {
-  const navigate = useNavigate();
+  const { goToAnime } = useRoute();
 
   const title = anime.title.english || anime.title.romaji;
 
-  /* #region handlers */
-  const handleCardClick = () => {
-    navigate(`/anime/${anime.id}`);
-  };
-  /* #endregion */
-
   return orientation === "vertical" ? (
     <div
-      onClick={handleCardClick}
+      onClick={() => goToAnime(anime.id)}
       className="flex flex-col p-4 gap-y-3 rounded-xl shadow-xl bg-zinc-600/10 border border-zinc-800 text-zinc-100 transition-all duration-300 cursor-pointer hover:bg-zinc-600/30"
     >
       <img
@@ -49,7 +43,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ anime, orientation = "vertical" }
     </div>
   ) : (
     <div
-      onClick={handleCardClick}
+      onClick={() => goToAnime(anime.id)}
       className="flex items-center px-3 py-2 gap-3 rounded-xl text-zinc-100 transition-all duration-300 cursor-pointer hover:bg-zinc-700/80"
     >
       <img src={anime.coverImage.medium} alt={title} title={title} className="w-12 h-16 rounded-xl object-cover" />

@@ -1,8 +1,11 @@
+import useRoute from "@/hooks/useRoute";
 import { HomePageWelcomeProps } from "./types/HomePageWelcome.types";
 import mascotteImg from "@/assets/images/mascotte.png";
 import "./HomePageWelcome.scss";
 
 const HomePageWelcome: React.FC<HomePageWelcomeProps> = () => {
+  const { goToAccount } = useRoute();
+
   return (
     <div className="flex items-center justify-center mb-2">
       <img src={mascotteImg} alt="Marin Kitagawa" title="Marin Kitagawa" className="w-48 z-10" />
@@ -15,9 +18,10 @@ const HomePageWelcome: React.FC<HomePageWelcomeProps> = () => {
         </p>
         <button
           type="button"
+          onClick={goToAccount}
           className="px-6 py-3 rounded-xl backdrop-blur-xs border border-zinc-100/10 bg-zinc-100/10 font-semibold transition-al cursor-pointer duration-300 hover:bg-zinc-100/20"
         >
-          Explore now
+          Join now
         </button>
       </div>
     </div>

@@ -1,23 +1,17 @@
-import { useNavigate } from "react-router-dom";
+import useRoute from "@/hooks/useRoute";
 import { EpisodeCardProps } from "./types/EpisodeCard.types";
 import { convertTimestampToDate } from "@/utils/common.utils";
 import "./EpisodeCard.scss";
 
 const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode }) => {
-  const navigate = useNavigate();
+  const { goToAnime } = useRoute();
 
   const anime = episode.media;
   const title = anime.title.english || anime.title.romaji;
 
-  /* #region handlers */
-  const handleCardClick = () => {
-    navigate(`/anime/${anime.id}`);
-  };
-  /* #endregion */
-
   return (
     <div
-      onClick={handleCardClick}
+      onClick={() => goToAnime(anime.id)}
       className="flex items-start p-4 gap-4 rounded-xl shadow-xl bg-zinc-600/10 border border-zinc-800 text-zinc-100 transition-all duration-300 cursor-pointer hover:bg-zinc-600/30"
     >
       <img src={anime.coverImage.large} alt={title} title={title} className="w-20 h-28 rounded-xl object-cover" />

@@ -13,7 +13,7 @@ const AiringSoonEpisodeContainer: React.FC<AiringSoonEpisodeContainerProps> = ({
           ))}
         </div>
       ) : (
-        <div className="h-32 flex justify-center items-center text-primary">Episodes not found</div>
+        <div className="flex justify-start items-center mt-4 text-zinc-400">Episodes not found</div>
       )}
     </div>
   );

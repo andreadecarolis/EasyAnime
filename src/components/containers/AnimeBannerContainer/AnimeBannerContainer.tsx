@@ -1,15 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import useRoute from "@/hooks/useRoute";
 import { AnimeBannerContainerProps } from "./types/AnimeBannerContainer.types";
 import "./AnimeBannerContainer.scss";
 
 const AnimeBannerContainer: React.FC<AnimeBannerContainerProps> = ({ anime }) => {
-  const navigate = useNavigate();
-
-  /* #region handlers */
-  const handleCardClick = () => {
-    navigate(`/anime/${anime.id}`);
-  };
-  /* #endregion */
+  const { goToAnime } = useRoute();
 
   return (
     <div
@@ -26,7 +20,7 @@ const AnimeBannerContainer: React.FC<AnimeBannerContainerProps> = ({ anime }) =>
           </p>
           <button
             type="button"
-            onClick={handleCardClick}
+            onClick={() => goToAnime(anime.id)}
             className="px-6 py-3 rounded-xl backdrop-blur-xs border border-zinc-100/10 bg-zinc-100/10 font-semibold transition-all duration-300 cursor-pointer hover:bg-zinc-100/20"
           >
             Discover more

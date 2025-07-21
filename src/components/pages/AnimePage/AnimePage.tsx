@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import useRoute from "@/hooks/useRoute";
 import { AnimeCarousel, Loader } from "@/components/common";
 import { AnimeCardGenres, AnimeCardRating, AnimeCardStatus } from "@/components/common/AnimeCard/widget";
 import { Anime } from "@/types/common.types";
@@ -19,13 +20,15 @@ const AnimePage: React.FC<AnimePageProps> = () => {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const navigate = useNavigate();
   const { id } = useParams();
+
+  const { goToHome } = useRoute();
 
   const title = anime?.title.english || anime?.title.romaji;
 
   /* #region handlers */
   const getAnimeData = async () => {
+    console.log("recupero anime");
     setLoading(true);
     const anime = await getAnimeInfo({ id: Number(id) });
     setAnime(anime);
@@ -33,10 +36,6 @@ const AnimePage: React.FC<AnimePageProps> = () => {
     setAnimeList(animeList);
     setLoading(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const handleHomePageClick = () => {
-    navigate("/");
   };
   /* #endregion */
 
@@ -48,10 +47,7 @@ const AnimePage: React.FC<AnimePageProps> = () => {
   return !loading ? (
     <>
       <div className="flex items-center gap-2 mb-4">
-        <span
-          className="text-zinc-100 font-semibold cursor-pointer flex items-center gap-1"
-          onClick={handleHomePageClick}
-        >
+        <span className="text-zinc-100 font-semibold cursor-pointer flex items-center gap-1" onClick={goToHome}>
           <ArrowLeftCircle size={20} className="icon" /> Home
         </span>
         <span className="text-zinc-400 font-normal">/ {title}</span>
@@ -150,7 +146,7 @@ const AnimePage: React.FC<AnimePageProps> = () => {
             </div>
           </div>
         ) : (
-          <div className="h-32 flex justify-center items-center text-primary">Anime not found</div>
+          <div className="flex justify-start items-center mt-4 text-zinc-400">Anime not found</div>
         )}
       </div>
       {anime && (
@@ -159,7 +155,7 @@ const AnimePage: React.FC<AnimePageProps> = () => {
           {animeList.length ? (
             <AnimeCarousel animeList={animeList} />
           ) : (
-            <div className="h-32 flex justify-center items-center text-primary">Anime not found</div>
+            <div className="flex justify-start items-center mt-4 text-zinc-400">Anime not found</div>
           )}
         </div>
       )}

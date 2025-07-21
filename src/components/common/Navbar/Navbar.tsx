@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import useRoute from "@/hooks/useRoute";
 import { AnimeCard } from "@/components/common";
 import { Anime } from "@/types/common.types";
 import { getSearchAnimeList } from "@/utils/common.utils";
@@ -14,7 +14,7 @@ const Navbar = () => {
 
   const resultsRef = useRef<HTMLDivElement | null>(null);
 
-  const navigate = useNavigate();
+  const { goToHome, goToAccount } = useRoute();
 
   /* #region handlers */
   const handleSearchChange = _.debounce((value: string) => {
@@ -24,14 +24,6 @@ const Navbar = () => {
   const getAnimeList = async () => {
     const animeList = await getSearchAnimeList({ search: searchTerm });
     setAnimeList(animeList);
-  };
-
-  const handleLogoClick = () => {
-    navigate("/");
-  };
-
-  const handleUserClick = () => {
-    navigate("/account");
   };
   /* #endregion */
 
@@ -58,13 +50,7 @@ const Navbar = () => {
     <nav className="w-[80%] sticky mx-auto px-6 py-4 rounded-xl shadow-xl bg-zinc-700/10 backdrop-blur-xs border border-zinc-800 z-20">
       <div className="flex flex-col gap-2 relative">
         <div className="flex items-center justify-between">
-          <img
-            src={logoImg}
-            alt="EasyAnime"
-            title="EasyAnime"
-            className="w-20 cursor-pointer"
-            onClick={handleLogoClick}
-          />
+          <img src={logoImg} alt="EasyAnime" title="EasyAnime" className="w-20 cursor-pointer" onClick={goToHome} />
           <div className="flex items-center gap-x-4">
             <div className="w-full max-w-sm relative flex">
               <input
@@ -75,7 +61,7 @@ const Navbar = () => {
               />
               <Search className="absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400" size={20} />
             </div>
-            <User className="text-zinc-400 cursor-pointer" size={20} onClick={handleUserClick} />
+            <User className="text-zinc-400 cursor-pointer" size={20} onClick={goToAccount} />
           </div>
         </div>
         {searchTerm.trim().length >= 3 && animeList.length > 0 && (

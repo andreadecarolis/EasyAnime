@@ -9,7 +9,7 @@ const PopularAnimeContainer: React.FC<PopularAnimeContainerProps> = ({ animeList
       {animeList.length ? (
         <AnimeCarousel animeList={animeList} />
       ) : (
-        <div className="h-32 flex justify-center items-center text-primary">Anime not found</div>
+        <div className="flex justify-start items-center mt-4 text-zinc-400">Anime not found</div>
       )}
     </div>
   );
