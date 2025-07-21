@@ -28,7 +28,6 @@ const HomePage: React.FC<HomePageProps> = () => {
 
   /* #region effects */
   useEffect(() => {
-    console.log("recupero home");
     dispatch(getTrendingAnimeListRequest());
     dispatch(getPopularAnimeListRequest());
     dispatch(getAiringSoonEpisodeListRequest());

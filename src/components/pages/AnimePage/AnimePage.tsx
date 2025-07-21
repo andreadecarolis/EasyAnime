@@ -28,7 +28,6 @@ const AnimePage: React.FC<AnimePageProps> = () => {
 
   /* #region handlers */
   const getAnimeData = async () => {
-    console.log("recupero anime");
     setLoading(true);
     const anime = await getAnimeInfo({ id: Number(id) });
     setAnime(anime);
