@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
+import { Loader } from "@/components/common";
 import {
   AiringSoonEpisodeContainer,
   AnimeBannerContainer,
@@ -18,7 +19,9 @@ import {
 import "./HomePage.scss";
 
 const HomePage: React.FC<HomePageProps> = () => {
-  const { trendingAnimeList, popularAnimeList, airingSoonEpisodeList } = useSelector((state: RootState) => state.app);
+  const { loading, trendingAnimeList, popularAnimeList, airingSoonEpisodeList } = useSelector(
+    (state: RootState) => state.app,
+  );
   const dispatch = useDispatch();
 
   const heroAnime: Anime | null = trendingAnimeList[0] ?? null;
@@ -32,7 +35,7 @@ const HomePage: React.FC<HomePageProps> = () => {
   }, []);
   /* #endregion */
 
-  return (
+  return !loading ? (
     <div className="flex flex-col gap-y-6">
       {heroAnime && <AnimeBannerContainer anime={heroAnime} />}
       <TrendingAnimeContainer animeList={trendingAnimeList} />
@@ -40,6 +43,8 @@ const HomePage: React.FC<HomePageProps> = () => {
       <PopularAnimeContainer animeList={popularAnimeList} />
       <AiringSoonEpisodeContainer episodeList={airingSoonEpisodeList} />
     </div>
+  ) : (
+    <Loader />
   );
 };
 

@@ -1,35 +1,40 @@
 import _ from "lodash";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/rootReducer";
+import { useNavigate } from "react-router-dom";
 import { AnimeCard } from "@/components/common";
 import { Anime } from "@/types/common.types";
-import { getSearchAnimeListRequest, setSelectedAnime } from "@/store/app/appSlice";
+import { getSearchAnimeList } from "@/utils/common.utils";
 import { Search } from "lucide-react";
 import logoImg from "@/assets/images/logo.png";
+import "./Navbar.scss";
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [animeList, setAnimeList] = useState<Anime[]>([]);
 
   const resultsRef = useRef<HTMLDivElement | null>(null);
 
-  const { searchAnimeList } = useSelector((state: RootState) => state.app);
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   /* #region handlers */
   const handleSearchChange = _.debounce((value: string) => {
     setSearchTerm(value);
   }, 400);
 
+  const getAnimeList = async () => {
+    const animeList = await getSearchAnimeList({ search: searchTerm });
+    setAnimeList(animeList);
+  };
+
   const handleLogoClick = () => {
-    dispatch(setSelectedAnime(null));
+    navigate("/");
   };
   /* #endregion */
 
   /* #region effects */
   useEffect(() => {
     if (searchTerm.trim().length >= 3) {
-      dispatch(getSearchAnimeListRequest({ searchTerm }));
+      getAnimeList();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
@@ -66,12 +71,12 @@ const Navbar = () => {
             <Search className="absolute top-1/2 left-3 -translate-y-1/2 text-zinc-400" size={20} />
           </div>
         </div>
-        {searchTerm.trim().length >= 3 && searchAnimeList.length > 0 && (
+        {searchTerm.trim().length >= 3 && animeList.length > 0 && (
           <div
             ref={resultsRef}
             className="w-full max-w-sm max-h-96 absolute top-18 right-0 overflow-y-auto rounded-xl shadow-xl bg-zinc-900/80 backdrop-blur-xs border border-zinc-800 z-30"
           >
-            {searchAnimeList.map((anime: Anime) => (
+            {animeList.map((anime: Anime) => (
               <AnimeCard key={anime.id} anime={anime} orientation="horizontal" />
             ))}
           </div>

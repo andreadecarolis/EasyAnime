@@ -4,29 +4,23 @@ import {
   Episode,
   GetAiringSoonEpisodeListResponse,
   GetPopularAnimeListResponse,
-  GetSearchAnimeListResponse,
-  GetSearchAnimeListArgs,
   GetTrendingAnimeListResponse,
 } from "@/types/common.types";
 import { HttpResponseFailure } from "@/types/httpRequest.types";
 import { filterAnimeListByPopularity, filterEpisodeListByPopularity } from "@/utils/common.utils";
 
 export interface AppState {
-  selectedAnime: Anime | null;
   trendingAnimeList: Anime[];
   popularAnimeList: Anime[];
   airingSoonEpisodeList: Episode[];
-  searchAnimeList: Anime[];
   loading: boolean;
   error?: number;
 }
 
 const initialState: AppState = {
-  selectedAnime: null,
   trendingAnimeList: [],
   popularAnimeList: [],
   airingSoonEpisodeList: [],
-  searchAnimeList: [],
   loading: false,
   error: undefined,
 };
@@ -35,11 +29,6 @@ const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    /* #region anime */
-    setSelectedAnime: (state, action: PayloadAction<Anime | null>) => {
-      state.selectedAnime = action.payload;
-    },
-    /* #endregion */
     /* #region getTrendingAnimeList */
     getTrendingAnimeListRequest: (state) => {
       state.loading = true;
@@ -51,7 +40,7 @@ const appSlice = createSlice({
     },
     getTrendingAnimeListFailure: (state, action: PayloadAction<HttpResponseFailure>) => {
       state.loading = false;
-      state.error = action.payload.status;
+      state.error = action.payload?.status ?? 500;
     },
     /* #endregion */
     /* #region getPopularAnimeList */
@@ -65,7 +54,7 @@ const appSlice = createSlice({
     },
     getPopularAnimeListFailure: (state, action: PayloadAction<HttpResponseFailure>) => {
       state.loading = false;
-      state.error = action.payload.status;
+      state.error = action.payload?.status ?? 500;
     },
     /* #endregion */
     /* #region getAiringSoonEpisodeList */
@@ -79,29 +68,13 @@ const appSlice = createSlice({
     },
     getAiringSoonEpisodeListFailure: (state, action: PayloadAction<HttpResponseFailure>) => {
       state.loading = false;
-      state.error = action.payload.status;
-    },
-    /* #endregion */
-    /* #region getSearchAnimeList */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    getSearchAnimeListRequest: (state, _action: PayloadAction<GetSearchAnimeListArgs>) => {
-      state.loading = true;
-    },
-    getSearchAnimeListSuccess: (state, action: PayloadAction<GetSearchAnimeListResponse>) => {
-      state.searchAnimeList = action.payload.data.Page.media;
-      state.loading = false;
-      state.error = undefined;
-    },
-    getSearchAnimeListFailure: (state, action: PayloadAction<HttpResponseFailure>) => {
-      state.loading = false;
-      state.error = action.payload.status;
+      state.error = action.payload?.status ?? 500;
     },
     /* #endregion */
   },
 });
 
 export const {
-  setSelectedAnime,
   getTrendingAnimeListRequest,
   getTrendingAnimeListSuccess,
   getTrendingAnimeListFailure,
@@ -111,8 +84,5 @@ export const {
   getAiringSoonEpisodeListRequest,
   getAiringSoonEpisodeListSuccess,
   getAiringSoonEpisodeListFailure,
-  getSearchAnimeListRequest,
-  getSearchAnimeListSuccess,
-  getSearchAnimeListFailure,
 } = appSlice.actions;
 export default appSlice.reducer;

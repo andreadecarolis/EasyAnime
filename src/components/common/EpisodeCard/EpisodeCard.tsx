@@ -1,18 +1,17 @@
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { EpisodeCardProps } from "./types/EpisodeCard.types";
 import { convertTimestampToDate } from "@/utils/common.utils";
-import { setSelectedAnime } from "@/store/app/appSlice";
 import "./EpisodeCard.scss";
 
 const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode }) => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const anime = episode.media;
   const title = anime.title.english || anime.title.romaji;
 
   /* #region handlers */
   const handleCardClick = () => {
-    dispatch(setSelectedAnime(anime));
+    navigate(`/anime/${anime.id}`);
   };
   /* #endregion */
 

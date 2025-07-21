@@ -1,4 +1,4 @@
-import { EpisodeCard, Loader } from "@/components/common";
+import { EpisodeCard } from "@/components/common";
 import { AiringSoonEpisodeContainerProps } from "./types/AiringSoonEpisodeContainer.types";
 import "./AiringSoonEpisodeContainer.scss";
 
@@ -13,7 +13,7 @@ const AiringSoonEpisodeContainer: React.FC<AiringSoonEpisodeContainerProps> = ({
           ))}
         </div>
       ) : (
-        <Loader />
+        <div className="h-32 flex justify-center items-center text-primary">Episodes not found</div>
       )}
     </div>
   );

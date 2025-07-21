@@ -1,14 +1,13 @@
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { AnimeBannerContainerProps } from "./types/AnimeBannerContainer.types";
-import { setSelectedAnime } from "@/store/app/appSlice";
 import "./AnimeBannerContainer.scss";
 
 const AnimeBannerContainer: React.FC<AnimeBannerContainerProps> = ({ anime }) => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   /* #region handlers */
   const handleCardClick = () => {
-    dispatch(setSelectedAnime(anime));
+    navigate(`/anime/${anime.id}`);
   };
   /* #endregion */
 

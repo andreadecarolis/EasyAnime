@@ -1,8 +1,20 @@
-import { Anime, AnimeTrailer, Episode } from "@/types/common.types";
+import { ANILIST_API_ANIME_REQUEST_FORMAT, ANILIST_API_URL } from "@/consts/common.consts";
+import {
+  Anime,
+  AnimeTrailer,
+  Episode,
+  GetAnimeInfoPayload,
+  GetAnimeInfoResponse,
+  GetAnimeRecommendationsPayload,
+  GetAnimeRecommendationsResponse,
+  GetSearchAnimeListPayload,
+  GetSearchAnimeListResponse,
+} from "@/types/common.types";
+import { fetchHttpRequest } from "./httpRequest.utils";
 
 /* #region anime */
 export const filterByPopularity = (anime: Anime) => {
-  return (anime?.popularity ?? 0) >= 50000;
+  return (anime?.popularity ?? 0) >= 25000;
 };
 
 export const filterAnimeListByPopularity = (list: Anime[]): Anime[] => {
@@ -23,6 +35,86 @@ export const getTrailerUrl = (trailer: AnimeTrailer): string | null => {
       return `https://vimeo.com/${trailer.id}`;
     default:
       return null;
+  }
+};
+/* #endregion */
+
+/* #region api */
+export const getSearchAnimeList = async (payload: GetSearchAnimeListPayload): Promise<GetSearchAnimeListResponse> => {
+  try {
+    const response: any = await fetchHttpRequest({
+      requestCode: ANILIST_API_URL,
+      payload: {
+        query: `
+          query ($search: String) {
+            Page(perPage: 10) {
+              media(search: $search, type: ANIME, sort: SEARCH_MATCH) {
+                ${ANILIST_API_ANIME_REQUEST_FORMAT}
+              }
+            }
+          }
+        `,
+        variables: payload,
+      },
+    });
+    return response.data.data.Page.media ?? [];
+  } catch {
+    return [];
+  }
+};
+
+export const getAnimeInfo = async (payload: GetAnimeInfoPayload): Promise<GetAnimeInfoResponse> => {
+  try {
+    const response: any = await fetchHttpRequest({
+      requestCode: ANILIST_API_URL,
+      payload: {
+        query: `
+          query ($id: Int) {
+            Media(id: $id, type: ANIME) {
+              ${ANILIST_API_ANIME_REQUEST_FORMAT}
+            }
+          }
+        `,
+        variables: payload,
+      },
+    });
+    return response.data.data.Media;
+  } catch {
+    return null;
+  }
+};
+
+export const getAnimeRecommendations = async (
+  payload: GetAnimeRecommendationsPayload,
+): Promise<GetAnimeRecommendationsResponse> => {
+  try {
+    const response: any = await fetchHttpRequest({
+      requestCode: ANILIST_API_URL,
+      payload: {
+        query: `
+          query ($id: Int) {
+            Media(id: $id, type: ANIME) {
+              recommendations(sort: RATING_DESC, perPage: 5) {
+                nodes {
+                  mediaRecommendation {
+                    ${ANILIST_API_ANIME_REQUEST_FORMAT}
+                  }
+                  rating
+                }
+              }
+            }
+          }
+        `,
+        variables: payload,
+      },
+    });
+    return (
+      response.data.data.Media?.recommendations?.nodes?.map(
+        (recommendation: { mediaRecommendation: Anime; rating: number }) => recommendation.mediaRecommendation,
+      ) ?? []
+    );
+  } catch {
+    return [];
   }
 };
 /* #endregion */

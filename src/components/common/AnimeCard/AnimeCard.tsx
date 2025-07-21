@@ -1,18 +1,17 @@
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { AnimeCardGenres, AnimeCardRating, AnimeCardStatus } from "./widget";
 import { AnimeCardProps } from "./types/AnimeCard.types";
-import { setSelectedAnime } from "@/store/app/appSlice";
 import { Tv2 } from "lucide-react";
 import "./AnimeCard.scss";
 
 const AnimeCard: React.FC<AnimeCardProps> = ({ anime, orientation = "vertical" }) => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const title = anime.title.english || anime.title.romaji;
 
   /* #region handlers */
   const handleCardClick = () => {
-    dispatch(setSelectedAnime(anime));
+    navigate(`/anime/${anime.id}`);
   };
   /* #endregion */
 

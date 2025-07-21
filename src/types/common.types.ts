@@ -122,17 +122,25 @@ export type GetAiringSoonEpisodeListResponse = z.infer<typeof GetAiringSoonEpiso
 /* #endregion */
 
 /* #region getSearchAnimeList */
-export type GetSearchAnimeListArgs = { searchTerm: string };
-
-export const GetSearchAnimeListPayloadSchema = z.object({});
+export const GetSearchAnimeListPayloadSchema = z.object({ search: z.string() });
 export type GetSearchAnimeListPayload = z.infer<typeof GetSearchAnimeListPayloadSchema>;
 
-export const GetSearchAnimeListResponseSchema = HttpResponseSchema.extend({
-  data: z.object({
-    Page: z.object({
-      media: z.array(AnimeSchema),
-    }),
-  }),
-});
+export const GetSearchAnimeListResponseSchema = z.array(AnimeSchema);
 export type GetSearchAnimeListResponse = z.infer<typeof GetSearchAnimeListResponseSchema>;
+/* #endregion */
+
+/* #region getAnimeInfo */
+export const GetAnimeInfoPayloadSchema = z.object({ id: z.number() });
+export type GetAnimeInfoPayload = z.infer<typeof GetAnimeInfoPayloadSchema>;
+
+export const GetAnimeInfoResponseSchema = AnimeSchema.nullable();
+export type GetAnimeInfoResponse = z.infer<typeof GetAnimeInfoResponseSchema>;
+/* #endregion */
+
+/* #region getAnimeRecommendations */
+export const GetAnimeRecommendationsPayloadSchema = z.object({ id: z.number() });
+export type GetAnimeRecommendationsPayload = z.infer<typeof GetAnimeRecommendationsPayloadSchema>;
+
+export const GetAnimeRecommendationsResponseSchema = z.array(AnimeSchema);
+export type GetAnimeRecommendationsResponse = z.infer<typeof GetAnimeRecommendationsResponseSchema>;
 /* #endregion */
